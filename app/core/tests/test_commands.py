@@ -14,7 +14,7 @@ class CommandTests(TestCase):
 
     @patch('time.sleep', return_value=True)
     # this decorator is for speeding up test each time "time.sleep" called
-    # it just returns True. we should add an extra argument in our test function
+    # it just returns True.we should add an extra argument in our test function
     # for it
     def test_wait_for_db(self, ts):
         """test waiting for db"""
