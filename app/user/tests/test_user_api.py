@@ -8,6 +8,7 @@ from rest_framework import status
 
 CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
+ME_URL = reverse('user:me')
 
 
 def create_user(**params):
@@ -95,3 +96,55 @@ class PublicUserApiTests(TestCase):
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_retrieve_user_unauthorized(self):
+        """test that authentication is required for user"""
+        res = self.client.get(ME_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class PrivateUserApiTests(TestCase):
+    """test API tests that require authentication"""
+
+    def setUp(self):
+        self.user = create_user(
+            email='omidgholami88@gmail.com',
+            password='omid1234',
+            name='omid'
+        )
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
+
+    def test_retrieve_profile_success(self):
+        """test retrieving profile for logged in user"""
+        res = self.client.get(ME_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, {
+            'name': self.user.name,
+            'email': self.user.email,
+        })
+
+    def test_post_me_not_allowed(self):
+        """test that POST method is not allowed in me url"""
+        res = self.client.post(ME_URL, {})
+
+        self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    # def test_update_user_profile(self):
+    #     """test updating the user profile for authenticated user"""
+    #     payloads = {
+    #         # they should differ?
+    #         'password': 'newpass12345',
+    #         'name': 'newname',
+    #     }
+    #     res = self.client.patch(CREATE_USER_URL, payloads)
+
+    #     self.assertEqual(self.user.name, payloads['name'])
+    #     self.assertTrue(self.user.check_password(payloads['password']))
+    #     self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+# ##12. Create tags endpoint
+
+# create recipe app
