@@ -1,0 +1,7 @@
+- create repository
+- create Dockerfile
+- run docker build .
+- create docker-compose.yml
+- docker-compose build
+- cretae django project:
+    docker-compose run app sh -c "django-admin startproject app ."
