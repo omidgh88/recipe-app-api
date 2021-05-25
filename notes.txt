@@ -5,3 +5,6 @@
 - docker-compose build
 - cretae django project:
     docker-compose run app sh -c "django-admin startproject app ."
+- setup travis-ci
+- .travis.yml
+- flake8
