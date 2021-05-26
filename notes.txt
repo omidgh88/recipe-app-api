@@ -8,3 +8,6 @@
 - setup travis-ci
 - .travis.yml
 - flake8
+- create core app
+- * if you faced "flake8 not found" you should build docker and docker-compose again
+
