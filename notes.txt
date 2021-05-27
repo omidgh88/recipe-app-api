@@ -10,4 +10,7 @@
 - flake8
 - create core app
 - * if you faced "flake8 not found" you should build docker and docker-compose again
+(maybe docker build is not necessary)
 
+
+- add psycopg2-binary and docker-compose build
