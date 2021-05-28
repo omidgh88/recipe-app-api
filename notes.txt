@@ -14,3 +14,5 @@
 
 
 - add psycopg2-binary and docker-compose build
+
+- docker-compose up
