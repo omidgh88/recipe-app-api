@@ -18,6 +18,15 @@ class UserSerializer(serializers.ModelSerializer):
         """override to create User with encrypted password"""
         return get_user_model().objects.create_user(**validated_data)
 
+    def update(self, instance, validated_data):
+        """override to set encrypted password correctly"""
+        password = validated_data.pop('password', None)
+        user = super().update(instance, validated_data)
+        if password is not None:
+            user.set_password(password)
+            user.save()
+        return user
+
 
 class AuthTokenSerializer(serializers.Serializer):
     email = serializers.EmailField()
